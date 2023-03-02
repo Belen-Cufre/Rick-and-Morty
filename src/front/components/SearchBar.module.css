@@ -1,0 +1,28 @@
+.divDeSearch{
+    background-color: rgb(63, 62, 62);
+}
+.input{
+    width: 15%;
+    height: 25%;
+    color: rgb(63, 62, 62);
+    border: solid .2px black;
+    border-radius: 8%;
+    font-size: 100%;
+    padding: 2em;
+    background-color: rgb(221, 218, 218);
+    gap: 2rem;
+}
+.botonDelSearch{
+    border: solid 3px yellow;
+    background-color: rgb(235, 235, 139);
+    font-size: 200%;
+    color:rgb(63, 62, 62);
+    border-radius: 5%;
+    margin-left: 2rem;
+    transition: .2s;
+}
+.botonDelSearch:hover{
+    background-color: yellow;
+    color: black;
+    font-weight: bold;
+}
