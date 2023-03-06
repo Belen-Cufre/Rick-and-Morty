@@ -29,7 +29,7 @@ function Card({name, species, gender, image, onClose, id}) //hago destructuring 
             setIsFav(true);
          }
       });
-   }, [myFavorites]);
+   }, [myFavorites, id]);
 
    return (
       <div className={style.tarjetas}>
