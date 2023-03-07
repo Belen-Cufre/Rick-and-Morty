@@ -8,28 +8,28 @@ function Card({name, species, gender, image, onClose, id}) //hago destructuring 
 { 
    const [isFav, setIsFav] = useState(false);
 
-   const dispatch= useDispatch();
+   // const dispatch= useDispatch();
 
-   const myFavorites = useSelector(state => state.myFavorites);
+   // const myFavorites = useSelector(state => state.myFavorites);
 
    const handleFavorite= ()=> {
       if (isFav === true) {
          setIsFav (false);
-         dispatch(deletePersonaje(id));
+         // dispatch(deletePersonaje(id));
       }
       else {
          setIsFav (true);
-         dispatch(addPersonaje({name, species, gender, image, onClose, id}))
+         // dispatch(addPersonaje({name, species, gender, image, onClose, id}))
       }
    };
 
-   useEffect(() => {
-      myFavorites.forEach((fav) => {
-         if (fav.id === id) {
-            setIsFav(true);
-         }
-      });
-   }, [myFavorites, id]);
+   // useEffect(() => {
+   //    myFavorites.forEach((fav) => {
+   //       if (fav.id === id) {
+   //          setIsFav(true);
+   //       }
+   //    });
+   // }, [myFavorites, id]);
 
    return (
       <div className={style.tarjetas}>
