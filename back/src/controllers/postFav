@@ -1,0 +1,21 @@
+const {Favorites} = require ('../DB_connection')
+
+const postFav = async (character) => { //character es el body
+    try {
+        const { name, status, species, gender, origin, image } = character;
+
+        if(!name || !status || !species || !gender || !origin || !image){
+            throw new Error ('Faltan datos obligatorios')
+        }
+        else {
+            const newFav= {name, status, species, gender, origin, image}
+            await Favorites.create(newFav);
+            return newFav;
+        }
+
+    } catch (error) {
+        return {error: error.message};
+    }
+}
+
+module.exports = postFav;

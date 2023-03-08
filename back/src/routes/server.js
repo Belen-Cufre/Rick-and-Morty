@@ -32,9 +32,22 @@ const express= require("express");
 const app= express();
 const axios= require("axios");
 const cors = require("cors");
+const getAllChars = require("../controllers/getAllChars")
+const postFav = require("../controllers/postFav")
+const getAllFavorites= require('../controllers/getAllFavorites')
+const deleteFavoriteById= require('../controllers/deleteFavoriteById')
 
 app.use(cors()); //esto se instala para que no te genere errores entre los permisos back y front
 app.use(express.json()); //el middleware
+
+app.get('/rickandmorty/allCharacters', async (req, res) => {
+    try {
+        let allCharacters= await getAllChars();
+        res.status(200).json(allCharacters);
+    } catch (error) {
+        res.status(404).send("Hubo un problema")
+    }
+})
 
 app.get("/rickandmorty/character/:id", async (req, res)=>{
     
@@ -86,27 +99,48 @@ app.get("/rickandmorty/detail/:deailId", async (req, res)=> {
 
 let fav= []; // esto va a simular ser mi DB. Es let y no const porque lo vamos pisando
 
-app.get("/rickandmorty/fav", (req, res)=> {
-    
-    res.status(200).json(fav);
+app.get("/rickandmorty/fav", async (req, res)=> {
+    try {
+        const allFavorites= await getAllFavorites();
+        if (allFavorites.error) {
+            throw new Error(allFavorites.error);
+        }
+        else {
+            return res.status(200).json(allFavorites);
+        }
+    } catch (error) {
+        res.status(404).send(error.message)
+    }    
 })
 
-app.post("/rickandmorty/fav", (req, res)=> {
+app.post("/rickandmorty/fav", async (req, res)=> {
     
-    fav.push(req.body);
+    try {
+        const characterFav = await postFav(req.body);
 
-    res.status(200).send("Se guardaron los datos correctamente")
+        if (characterFav.error) throw new Error(characterFav.error)
+
+        res.status(200).json(characterFav);
+
+    } catch (error) {
+        return res.status(204).send(error.message)       
+    }
 })
 
-app.delete("/rickandmorty/fav", (req, res)=> {
-    
-    const {id}= req.params;
+app.delete("/rickandmorty/fav", async (req, res)=> {
+    try {
+        const {id}= req.params;
+        const deletedFavorite= await deleteFavoriteById(Number(id));
 
-    const favFiltrados = fav.filter((char)=> char.id !== Number(id));
-
-    fav= favFiltrados;
-
-    res.status(200).send("Se eliminó correctamente")
+        if(deletedFavorite.error){
+            throw new Error(deletedFavorite.error)
+        }
+        else {
+            res.status(200).send(deleteFavoriteById);
+        }
+    } catch (error) {
+        return res.status(404).send(error.message);
+    }
 })
 
 
